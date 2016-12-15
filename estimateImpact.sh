@@ -1,6 +1,6 @@
 #!/bin/bash
 
-DATACARD="datacard_DeltaPhi_ElMu_0"
+DATACARD="baseCards/datacard_DeltaPhi_ElMu_0"
 MASS="1"
 
 if [ "$1" != "" ]; then
