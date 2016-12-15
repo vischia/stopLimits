@@ -2,7 +2,7 @@
 
 BASELOCATION="baseCards/"
 BASEDATACARD="datacard_DeltaPhi_ElMu_0.txt"
-
+BASESHAPESFILE="DeltaPhi_ElMu_0.root"
 VARIEDLOCATION="variedTtbar"
 
 # RUN [Asy|Ful]
@@ -12,16 +12,16 @@ BANDS=false
 
 ### This function runs limits for a single datacard
 function runLimit {
-    CARD=$1
+    DATACARD=$1
     if   [ "$RUN" == "Asy" ]; then
-        combine -M Asymptotic ${DATACARD}
+        combine -M Asymptotic ${DATACARD} -n ${DATACARD}
     elif [ "$RUN" == "Ful" ]; then
-        combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.5
+        combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.5 -n ${DATACARD}
         if [ "$BANDS" = true ]; then
-            combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.025
-            combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.16
-            combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.84
-            combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.975
+            combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.025 -n ${DATACARD}
+            combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.16 -n ${DATACARD}
+            combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.84 -n ${DATACARD}
+            combine -M HybridNew --frequentist --testStat LHC ${DATACARD} -H ProfileLikelihood --fork 4 --expectedFromGrid=0.975 -n ${DATACARD}
         fi
     fi
 }
@@ -29,12 +29,14 @@ function runLimit {
 
 ### This function creates syst cards with varied systematics ###
 function createSetSysts {
-    BASE=${BASELOCATION}$1
-    VARIED=$2
+    BASE=$1
+    SHAPE=$2
+    VARIED=$3
     mkdir ${VARIED}
+    cp ${BASELOCATION}/${SHAPE} ${VARIED}
     for ttbarSys in 01 05 10 20 25 30 40 50 60 70 80 90 99; do
-        cp ${BASE} ${VARIED}/varied_${ttbarSys}_${BASE}
-        sed -i -- 's/ttbar                 lnN     -       -       -       -        1.25      - /ttbar                 lnN     -       -       -       -        1.${ttbarSys}      - /g' variedSysts/varied_${ttbarSys}_${BASE}
+        cp ${BASELOCATION}/${BASE} ${VARIED}/varied_${ttbarSys}_${BASE}
+        sed -i -- "s/ttbar                 lnN     -       -       -       -        1.25      - /ttbar                 lnN     -       -       -       -        1.$ttbarSys      - /g" ${VARIED}/varied_${ttbarSys}_${BASE}
     done
 
 }
@@ -47,6 +49,7 @@ function runSetSysts {
     for CARD in `ls ./`; do
         runLimit ${CARD}
     done
+    cd -
 }
 ######
 
@@ -60,10 +63,10 @@ function analyzeVariedSysts {
 ###### MAIN ######
 
 # Create set of varied cards for base shape card
-createSetSysts ${BASEDATACARD} ${VARIEDLOCATION}
+#createSetSysts ${BASEDATACARD} ${BASESHAPESFILE} ${VARIEDLOCATION}
 
 # Run limits on the cards with varied systs
-runSetSysts ${VARIEDLOCATION}
+#runSetSysts ${VARIEDLOCATION}
 
 # Analyze the outcome
 analyzeVariedSysts ${VARIEDLOCATION}
