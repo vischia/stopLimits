@@ -1,5 +1,10 @@
 #!/bin/bash
 
+ALL=true
+if   [ "$1" == "anal" ]; then
+    ALL=false
+fi
+
 BASELOCATION="baseCards/"
 BASEDATACARD="datacard_DeltaPhi_ElMu_0"
 BASESHAPESFILE="DeltaPhi_ElMu_0.root"
@@ -76,13 +81,15 @@ function analyzeVariedSysts {
 
 ###### MAIN ######
 
-# Create set of varied cards for base shape card
-createSetSysts ttbar  ${BASEDATACARD} ${BASESHAPESFILE} ${VARIEDLOCATION}
-createSetSysts signal ${BASEDATACARD} ${BASESHAPESFILE} ${VARIEDLOCATION}_signal
+if [ "$ALL" == true ]; then
+    # Create set of varied cards for base shape card
+    createSetSysts ttbar  ${BASEDATACARD} ${BASESHAPESFILE} ${VARIEDLOCATION}
+    createSetSysts signal ${BASEDATACARD} ${BASESHAPESFILE} ${VARIEDLOCATION}_signal
 
-# Run limits on the cards with varied systs
-runSetSysts ${VARIEDLOCATION}
-runSetSysts ${VARIEDLOCATION}_signal
+    # Run limits on the cards with varied systs
+    runSetSysts ${VARIEDLOCATION}
+    runSetSysts ${VARIEDLOCATION}_signal
+fi
 
 # Analyze the outcome
 analyzeVariedSysts ${VARIEDLOCATION}
