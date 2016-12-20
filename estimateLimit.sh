@@ -9,6 +9,8 @@ fi
 BASELOCATION="carlos/"
 #BASEDATACARD="datacard_DeltaPhi_ElMu_0"
 BASEDATACARD="datacard_Stop_Stats_250_75_lumi35000"
+THELABEL="#Delta#phi(#it{l}, #mu)"
+THELABEL="BDT\\ discriminator"
 #BASESHAPESFILE="DeltaPhi_ElMu_0.root"
 BASESHAPESFILE="BDT_testAlllum35000250_75.root"
 #VARIEDLOCATION="variedTtbar"
@@ -48,7 +50,7 @@ function createSetSysts {
     if [ "$WHAT" == "ttbar" ]; then
         for ttbarSys in 01 05 10 20 25 30 40 50 60 70 80 90 99; do
             cp ${BASELOCATION}/${BASE}.txt ${VARIED}/varied_${ttbarSys}_${BASE}.txt
-            if [ "$BASELOCATION" == "carlos" ]; then
+            if [ "$BASELOCATION" == "carlos/" ]; then
                 sed -i -- "s/tt  lnN     -    1.250000    -    -    -    -/tt  lnN     -    1.$ttbarSys    -    -    -    -/g" ${VARIED}/varied_${ttbarSys}_${BASE}.txt
             else
                 sed -i -- "s/ttbar                 lnN     -       -       -       -        1.25      - /ttbar                 lnN     -       -       -       -        1.$ttbarSys      - /g" ${VARIED}/varied_${ttbarSys}_${BASE}.txt
@@ -58,7 +60,7 @@ function createSetSysts {
     elif [ "$WHAT" == "signal" ]; then
         for signalSys in 01 10 20 50 99; do
             cp ${BASELOCATION}/${BASE}.txt ${VARIED}/varied_${signalSys}_${BASE}.txt
-            if [ "$BASELOCATION" == "carlos" ]; then
+            if [ "$BASELOCATION" == "carlos/" ]; then
                 sed -i -- "s/Stop  lnN     1.200000    -    -    -    -    -/Stop  lnN    1.$signalSys    -    -    -    -    -/g" ${VARIED}/varied_${signalSys}_${BASE}.txt
             else
                 sed -i -- "s/Signal                lnN     -       -       -       -        -         1.20 /Signal                lnN     -       -       -       -        -         1.$signalSys /g" ${VARIED}/varied_${signalSys}_${BASE}.txt
@@ -78,7 +80,7 @@ function runSetSysts {
     cd ${LOCATION}
     for CARD in `ls varied*root `; do
         runLimit ${CARD} Asy
-        #runLimit ${CARD} Ful
+        runLimit ${CARD} Ful
     done
     cd -
 }
@@ -88,7 +90,13 @@ function runSetSysts {
 function analyzeVariedSysts {
     WHAT=$1
     LOCATION=$2
-    eval "root -l analyzeVariedSysts.C\\(\\\"${WHAT}\\\",\\\"${LOCATION}\\\"\\)"
+    WHO="juan"
+    if [ "$BASELOCATION" == "carlos/" ]; then
+        WHO="carlos"
+    fi
+    eval "root -l analyzeVariedSysts.C\\(\\\"${WHAT}\\\",\\\"${LOCATION}\\\",\\\"${BASEDATACARD}\\\",true\\)"
+    eval "root -l drawSituation.C\\(\\\"${WHO}\\\",\\\"${BASELOCATION}${BASESHAPESFILE}\\\",\\\"${THELABEL}\\\"\\)"
+
 }
 ######
 
