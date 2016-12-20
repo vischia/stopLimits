@@ -5,10 +5,14 @@ if   [ "$1" == "anal" ]; then
     ALL=false
 fi
 
-BASELOCATION="baseCards/"
-BASEDATACARD="datacard_DeltaPhi_ElMu_0"
-BASESHAPESFILE="DeltaPhi_ElMu_0.root"
-VARIEDLOCATION="variedTtbar"
+#BASELOCATION="baseCards/"
+BASELOCATION="carlos/"
+#BASEDATACARD="datacard_DeltaPhi_ElMu_0"
+BASEDATACARD="datacard_Stop_Stats_250_75_lumi35000"
+#BASESHAPESFILE="DeltaPhi_ElMu_0.root"
+BASESHAPESFILE="BDT_testAlllum35000250_75.root"
+#VARIEDLOCATION="variedTtbar"
+VARIEDLOCATION="variedTtbarCarlos"
 
 # RUN [Asy|Ful]
 # RUN="Asy"
@@ -44,13 +48,21 @@ function createSetSysts {
     if [ "$WHAT" == "ttbar" ]; then
         for ttbarSys in 01 05 10 20 25 30 40 50 60 70 80 90 99; do
             cp ${BASELOCATION}/${BASE}.txt ${VARIED}/varied_${ttbarSys}_${BASE}.txt
-            sed -i -- "s/ttbar                 lnN     -       -       -       -        1.25      - /ttbar                 lnN     -       -       -       -        1.$ttbarSys      - /g" ${VARIED}/varied_${ttbarSys}_${BASE}.txt
+            if [ "$BASELOCATION" == "carlos" ]; then
+                sed -i -- "s/tt  lnN     -    1.250000    -    -    -    -/tt  lnN     -    1.$ttbarSys    -    -    -    -/g" ${VARIED}/varied_${ttbarSys}_${BASE}.txt
+            else
+                sed -i -- "s/ttbar                 lnN     -       -       -       -        1.25      - /ttbar                 lnN     -       -       -       -        1.$ttbarSys      - /g" ${VARIED}/varied_${ttbarSys}_${BASE}.txt
+            fi
             text2workspace.py ${VARIED}/varied_${ttbarSys}_${BASE}.txt -o ${VARIED}/varied_${ttbarSys}_${BASE}.root
         done
     elif [ "$WHAT" == "signal" ]; then
         for signalSys in 01 10 20 50 99; do
             cp ${BASELOCATION}/${BASE}.txt ${VARIED}/varied_${signalSys}_${BASE}.txt
-            sed -i -- "s/Signal                lnN     -       -       -       -        -         1.20 /Signal                lnN     -       -       -       -        -         1.$signalSys /g" ${VARIED}/varied_${signalSys}_${BASE}.txt
+            if [ "$BASELOCATION" == "carlos" ]; then
+                sed -i -- "s/Stop  lnN     1.200000    -    -    -    -    -/Stop  lnN    1.$signalSys    -    -    -    -    -/g" ${VARIED}/varied_${signalSys}_${BASE}.txt
+            else
+                sed -i -- "s/Signal                lnN     -       -       -       -        -         1.20 /Signal                lnN     -       -       -       -        -         1.$signalSys /g" ${VARIED}/varied_${signalSys}_${BASE}.txt
+            fi
             text2workspace.py ${VARIED}/varied_${signalSys}_${BASE}.txt -o ${VARIED}/varied_${signalSys}_${BASE}.root
         done
     fi
@@ -66,7 +78,7 @@ function runSetSysts {
     cd ${LOCATION}
     for CARD in `ls varied*root `; do
         runLimit ${CARD} Asy
-        runLimit ${CARD} Ful
+        #runLimit ${CARD} Ful
     done
     cd -
 }
@@ -74,8 +86,9 @@ function runSetSysts {
 
 ### This function runs a ROOT macro that produces some plots about what happens when varying the overall ttbar syst uncertainty
 function analyzeVariedSysts {
-    LOCATION=$1
-    eval "root -l analyzeVariedSysts.C\\(\\\"${LOCATION}\\\"\\)"
+    WHAT=$1
+    LOCATION=$2
+    eval "root -l analyzeVariedSysts.C\\(\\\"${WHAT}\\\",\\\"${LOCATION}\\\"\\)"
 }
 ######
 
@@ -92,7 +105,7 @@ if [ "$ALL" == true ]; then
 fi
 
 # Analyze the outcome
-analyzeVariedSysts ${VARIEDLOCATION}
-
+analyzeVariedSysts ttbar  ${VARIEDLOCATION}
+analyzeVariedSysts signal ${VARIEDLOCATION}_signal
 
 
