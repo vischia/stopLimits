@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Prerequisite: installing the combineTool.py tool.
+#       Method 1 (install only the script):
+#                  bash <(curl -s https://raw.githubusercontent.com/cms-analysis/CombineHarvester/master/CombineTools/scripts/sparse-checkout-ssh.sh)
+#       Method 2 (install the whole CombineHarvester):
+#                  cd $CMSSW_BASE/src
+#                  git clone https://github.com/cms-analysis/CombineHarvester.git CombineHarvester
+#                  scram b -j 6
+
+
 DATACARD="baseCards/datacard_DeltaPhi_ElMu_0"
 MASS="1"
 
