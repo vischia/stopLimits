@@ -1,9 +1,9 @@
 
 
 
-void analyzeVariedSysts(TString what, TString location, TString basename, bool asyOnly=false)
+void analyzeVariedSysts(TString what, TString location, TString basename, TString SalsoFull)
 {
-  
+  bool alsoFull(SalsoFull=="true" ? true : false );
   std::vector<TString> syst; syst.clear();
   std::vector<double>  perc; perc.clear();
   
@@ -43,22 +43,22 @@ void analyzeVariedSysts(TString what, TString location, TString basename, bool a
     TString fnameFul(location+"/higgsCombinevaried_"+iSyst+"_"+basename+".root.HybridNew.mH120.quant0.500.root");
 
     fasy = TFile::Open(fnameAsy);
-    if(!asyOnly)
+    if(alsoFull)
       fful = TFile::Open(fnameFul);
 
     TTree* tasy = (TTree*) fasy->Get("limit");
     TTree* tful = NULL;
-    if(!asyOnly)
+    if(alsoFull)
       tful = (TTree*) fful->Get("limit");
 
     double lasy(0.);
     double lful(0.);
     tasy->SetBranchAddress("limit", &lasy);
-    if(!asyOnly)tful->SetBranchAddress("limit", &lful);
+    if(alsoFull)tful->SetBranchAddress("limit", &lful);
     tasy->GetEntry(2);
-    if(!asyOnly)tful->GetEntry(0);
+    if(alsoFull)tful->GetEntry(0);
     asy.push_back(lasy);
-    if(!asyOnly)ful.push_back(lful);
+    if(alsoFull)ful.push_back(lful);
     cout << "Limit: asy " << lasy << ", ful " << lful << " for syst " << iSyst << endl;
   }
 
@@ -69,13 +69,13 @@ void analyzeVariedSysts(TString what, TString location, TString basename, bool a
   for( auto iPerc : perc)
     {
       asyG->SetPoint(iPoint, iPerc, asy[iPoint]);
-      if(!asyOnly)fulG->SetPoint(iPoint, iPerc, ful[iPoint]);
+      if(alsoFull)fulG->SetPoint(iPoint, iPerc, ful[iPoint]);
       iPoint++;
     }
 
   TLegend* leg = new TLegend(0.1,0.7,0.4,0.9);
   leg->AddEntry(asyG, "Asymptotic", "PL");
-  if(!asyOnly)leg->AddEntry(fulG, "Full CL_{s}", "PL");
+  if(alsoFull)leg->AddEntry(fulG, "Full CL_{s}", "PL");
 
   TCanvas* c = new TCanvas(what,what,1000,1000);
   c->cd();
@@ -85,16 +85,16 @@ void analyzeVariedSysts(TString what, TString location, TString basename, bool a
   asyG->GetYaxis()->SetTitleOffset(1.4);
   asyG->SetLineWidth(3);
   asyG->SetMarkerStyle(21);
-  if(!asyOnly)fulG->SetLineWidth(3);
-  if(!asyOnly)fulG->SetMarkerStyle(21);
-  if(!asyOnly)fulG->SetLineColor(2);
-  if(!asyOnly)fulG->SetMarkerColor(2);
-  asyG->GetYaxis()->SetRangeUser(0.01,1.2);
+  if(alsoFull)fulG->SetLineWidth(3);
+  if(alsoFull)fulG->SetMarkerStyle(21);
+  if(alsoFull)fulG->SetLineColor(2);
+  if(alsoFull)fulG->SetMarkerColor(2);
+  asyG->GetYaxis()->SetRangeUser(0.01,2.5);
   asyG->Draw("APL");
-  if(!asyOnly)fulG->Draw("PLSAME");
+  if(alsoFull)fulG->Draw("PLSAME");
   leg->Draw();
-  c->Print(what+".png");
-  c->Print(what+".pdf");
+  c->Print(location+what+".png");
+  c->Print(location+what+".pdf");
 
   gApplication->Terminate();
 
