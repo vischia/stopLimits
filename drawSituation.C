@@ -79,9 +79,9 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
     {
       // Signal
       c->cd();
-      c->SetTitle(Form("Syst %s",syst));
-      u = (TH1*) f->Get(Form("%s_%sUp"  ,signalLabel,syst));
-      d = (TH1*) f->Get(Form("%s_%sDown",signalLabel,syst)); 
+      c->SetTitle(Form("Syst %s",syst.Data()));
+      u = (TH1*) f->Get(Form("%s_%sUp"  ,signalLabel.Data(),syst.Data()));
+      d = (TH1*) f->Get(Form("%s_%sDown",signalLabel.Data(),syst.Data())); 
       s->SetLineColor(1);
       s->SetFillStyle(0);
       s->SetLineWidth(3);
@@ -97,8 +97,8 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
       s->Draw();
       u->Draw("samehist");
       d->Draw("samehist");
-      c->Print(Form("%s/signalShapes_%s.png",location,syst));
-      c->Print(Form("%s/signalShapes_%s.pdf",location,syst));
+      c->Print(Form("%s/signalShapes_%s.png",location.Data(),syst.Data()));
+      c->Print(Form("%s/signalShapes_%s.pdf",location.Data(),syst.Data()));
       
       delete u;
       delete d;
@@ -108,8 +108,8 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
       // Dominant background
       c->cd();
       c->SetTitle(Form("Syst %s",syst));
-      u = (TH1*) f->Get(Form("%s_%sUp"  ,ttbarLabel,syst));
-      d = (TH1*) f->Get(Form("%s_%sDown",ttbarLabel,syst)); 
+      u = (TH1*) f->Get(Form("%s_%sUp"  ,ttbarLabel.Data(),syst.Data()));
+      d = (TH1*) f->Get(Form("%s_%sDown",ttbarLabel.Data(),syst.Data())); 
       t->SetLineColor(1);
       t->SetFillStyle(0);
       t->SetLineWidth(3);
@@ -122,8 +122,8 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
       t->Draw();
       u->Draw("samehist");
       d->Draw("samehist");
-      c->Print(Form("%s/ttbarShapes_%s.png",location,syst));
-      c->Print(Form("%s/ttbarShapes_%s.pdf",location,syst));
+      c->Print(Form("%s/ttbarShapes_%s.png",location.Data(),syst.Data()));
+      c->Print(Form("%s/ttbarShapes_%s.pdf",location.Data(),syst.Data()));
       delete u;
       delete d;
       c->Clear();
