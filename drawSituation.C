@@ -79,6 +79,7 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
     {
       // Signal
       c->cd();
+      c->SetTitle(Form("Syst %s",syst));
       u = (TH1*) f->Get(Form("%s_%sUp"  ,signalLabel,syst));
       d = (TH1*) f->Get(Form("%s_%sDown",signalLabel,syst)); 
       s->SetLineColor(1);
@@ -106,6 +107,7 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
       
       // Dominant background
       c->cd();
+      c->SetTitle(Form("Syst %s",syst));
       u = (TH1*) f->Get(Form("%s_%sUp"  ,ttbarLabel,syst));
       d = (TH1*) f->Get(Form("%s_%sDown",ttbarLabel,syst)); 
       t->SetLineColor(1);
