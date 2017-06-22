@@ -95,15 +95,39 @@ function analyzeVariedSysts {
     if [ "$BASELOCATION" == "carlos/" ]; then
         WHO="carlos"
     fi
-    if [ "$SITUATIONONLY" == false ]; then
-        eval "root -l analyzeVariedSysts.C\\(\\\"${WHAT}\\\",\\\"${LOCATION}/\\\",\\\"${BASEDATACARD}\\\",\\\"${RUNFULL}\\\"\\)"
-    fi
+    #if [ "$SITUATIONONLY" == false ]; then
+    #    eval "root -l analyzeVariedSysts.C\\(\\\"${WHAT}\\\",\\\"${LOCATION}/\\\",\\\"${BASEDATACARD}\\\",\\\"${RUNFULL}\\\"\\)"
+    #fi
     eval "root -l -b drawSituation.C\\(\\\"${WHO}\\\",\\\"${BASELOCATION}${BASESHAPESFILE}\\\",\\\"${LOCATION}\\\",\\\"${THELABEL}\\\",\\\"${SIGNALLABEL}\\\"\\)"
 
 }
 ######
 
-###### MAIN ######
+###### WRAP ######
+function wrap {
+    BASELOCATION=$1
+    BASEDATACARD=$2
+    THELABEL=$3
+    BASESHAPESFILE=$4
+    VARIEDLOCATION=$5
+    SIGNALLABEL=$6
+
+    #if [ "$ALL" == true ]; then
+    #    # Create set of varied cards for base shape card
+    #    createSetSysts ttbar  ${BASEDATACARD} ${BASESHAPESFILE} ${VARIEDLOCATION}
+    #    createSetSysts signal ${BASEDATACARD} ${BASESHAPESFILE} ${VARIEDLOCATION}_signal
+    #    
+    #    # Run limits on the cards with varied systs
+    #    runSetSysts ${VARIEDLOCATION}
+    #    runSetSysts ${VARIEDLOCATION}_signal
+    #fi
+    
+    # Analyze the outcome
+    analyzeVariedSysts ttbar  ${VARIEDLOCATION} ${ALSOFULL}
+    analyzeVariedSysts signal ${VARIEDLOCATION}_signal ${ALSOFULL}
+    
+}
+
 function main {
     BASELOCATION=$1
     BASEDATACARD=$2
@@ -112,21 +136,21 @@ function main {
     VARIEDLOCATION=$5
     SIGNALLABEL=$6
 
-    if [ "$ALL" == true ]; then
-        # Create set of varied cards for base shape card
-        createSetSysts ttbar  ${BASEDATACARD} ${BASESHAPESFILE} ${VARIEDLOCATION}
-        createSetSysts signal ${BASEDATACARD} ${BASESHAPESFILE} ${VARIEDLOCATION}_signal
-        
-        # Run limits on the cards with varied systs
-        runSetSysts ${VARIEDLOCATION}
-        runSetSysts ${VARIEDLOCATION}_signal
-    fi
-    
-    # Analyze the outcome
-    analyzeVariedSysts ttbar  ${VARIEDLOCATION} ${ALSOFULL}
-    analyzeVariedSysts signal ${VARIEDLOCATION}_signal ${ALSOFULL}
+    wrap "$BASELOCATION" "$BASEDATACARD" "$THELABEL" "$BASESHAPESFILE" "$VARIEDLOCATION" "$SIGNALLABEL"
+ 
+    rm -r ~/www/stop/${VARIEDLOCATION}
+    cp -r ${VARIEDLOCATION}       ~/www/stop/
+    cp ~/www/stop/index.php ~/www/stop/${VARIEDLOCATION}/      
     
 }
+
+main "2017-06-22_juanWithFakes/" "datacard_MT2_SFS_200_50_ElMu.txt" "M_{T2}" "MT2.root"  "systs_2017-06-22_juan_mt2" "SFS_200_50"
+main "2017-06-22_juanWithFakes/" "datacard_MT2_SFS_225_50_ElMu.txt" "M_{T2}" "MT2.root"  "systs_2017-06-22_juan_mt2" "SFS_225_50"
+main "2017-06-22_juanWithFakes/" "datacard_MT2_SFS_250_50_ElMu.txt" "M_{T2}" "MT2.root"  "systs_2017-06-22_juan_mt2" "SFS_250_50"
+
+main "2017-06-22_juanWithFakes/" "datacard_CutAndCount_SFS_200_50_ElMu.txt" "Counts" "CutAndCount.root"  "systs_2017-06-22_juan_cnc" "SFS_200_50"
+main "2017-06-22_juanWithFakes/" "datacard_CutAndCount_SFS_225_50_ElMu.txt" "Counts" "CutAndCount.root"  "systs_2017-06-22_juan_cnc" "SFS_225_50"
+main "2017-06-22_juanWithFakes/" "datacard_CutAndCount_SFS_250_50_ElMu.txt" "Counts" "CutAndCount.root"  "systs_2017-06-22_juan_cnc" "SFS_250_50"
 
 # main "baseCards/" "datacard_DeltaPhi_ElMu_0"  "#Delta#phi(#it{l}, #mu)" "DeltaPhi_ElMu_0.root" "variedTtbar"
 
@@ -168,71 +192,29 @@ function main {
 #cp ~/www/stop/index.php ~/www/stop/varied_2017-03-22_juan_MT2_signal/
 #
 
-main "2017-06-13_juan/" "datacard_MT2_ElMu_SFS_200_50" "M_{T2}" "MT2.root" "varied_2017-06-13_juan_MT2_200" "SFS_200_50"
-main "2017-06-13_juan/" "datacard_MT2_ElMu_SFS_225_50" "M_{T2}" "MT2.root" "varied_2017-06-13_juan_MT2_225" "SFS_225_50"
-main "2017-06-13_juan/" "datacard_MT2_ElMu_SFS_250_50" "M_{T2}" "MT2.root" "varied_2017-06-13_juan_MT2_250" "SFS_250_50"
-
-main "2017-06-13_juan/" "datacard_CutAndCount_ElMu_SFS_200_50" "Yield" "CutAndCount.root" "varied_2017-06-13_juan_CutAndCount_200" "SFS_200_50"
-main "2017-06-13_juan/" "datacard_CutAndCount_ElMu_SFS_225_50" "Yield" "CutAndCount.root" "varied_2017-06-13_juan_CutAndCount_225" "SFS_225_50"
-main "2017-06-13_juan/" "datacard_CutAndCount_ElMu_SFS_250_50" "Yield" "CutAndCount.root" "varied_2017-06-13_juan_CutAndCount_250" "SFS_250_50"
+#main "MT2g100_2017-06-20/" "datacard_CutAndCount_MT2g100_SFS_250_50_ElMu.txt" "M_{T2}" "CutAndCount_MT2g100_ElMu.root"  "mt2g100" "SFS_250_50"
 
 
-mkdir -p ~/www/stop/old/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_MT2_200/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_MT2_200_signal/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_MT2_225/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_MT2_225_signal/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_MT2_250/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_MT2_250_signal/
+#main "MT2tails_2017-06-20/" "datacard_MT2_SFS_250_50_ElMu.txt" "M_{T2}" "MT2_ElMu.root"               "mt2tails_nocut" "SFS_250_50"
+#main "MT2tails_2017-06-20/" "datacard_MT2_leq120_SFS_250_50_ElMu.txt" "M_{T2}" "MT2_leq120_ElMu.root" "mt2tails_nocut_leq120" "SFS_250_50"
+#main "MT2tails_2017-06-20/" "datacard_MT2_leq140_SFS_250_50_ElMu.txt" "M_{T2}" "MT2_leq140_ElMu.root" "mt2tails_nocut_leq140" "SFS_250_50"
+#
 
-mv ~/www/stop/varied_2017-06-13_juan_MT2_200/        ~/www/stop/old/
-mv ~/www/stop/varied_2017-06-13_juan_MT2_200_signal/ ~/www/stop/old/ 
-mv ~/www/stop/varied_2017-06-13_juan_MT2_225/        ~/www/stop/old/
-mv ~/www/stop/varied_2017-06-13_juan_MT2_225_signal/ ~/www/stop/old/ 
-mv ~/www/stop/varied_2017-06-13_juan_MT2_250/        ~/www/stop/old/
-mv ~/www/stop/varied_2017-06-13_juan_MT2_250_signal/ ~/www/stop/old/ 
-
-cp -r varied_2017-06-13_juan_MT2_200/        ~/www/stop/
-cp -r varied_2017-06-13_juan_MT2_200_signal/ ~/www/stop/
-cp -r varied_2017-06-13_juan_MT2_225/        ~/www/stop/
-cp -r varied_2017-06-13_juan_MT2_225_signal/ ~/www/stop/
-cp -r varied_2017-06-13_juan_MT2_250/        ~/www/stop/
-cp -r varied_2017-06-13_juan_MT2_250_signal/ ~/www/stop/
-
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_MT2_200/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_MT2_200_signal/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_MT2_225/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_MT2_225_signal/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_MT2_250/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_MT2_250_signal/
-
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_CutAndCount_200/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_CutAndCount_200_signal/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_CutAndCount_225/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_CutAndCount_225_signal/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_CutAndCount_250/
-rm -r  ~/www/stop/old/varied_2017-06-13_juan_CutAndCount_250_signal/
-
-mv ~/www/stop/varied_2017-06-13_juan_CutAndCount_200/        ~/www/stop/old/
-mv ~/www/stop/varied_2017-06-13_juan_CutAndCount_200_signal/ ~/www/stop/old/ 
-mv ~/www/stop/varied_2017-06-13_juan_CutAndCount_225/        ~/www/stop/old/
-mv ~/www/stop/varied_2017-06-13_juan_CutAndCount_225_signal/ ~/www/stop/old/ 
-mv ~/www/stop/varied_2017-06-13_juan_CutAndCount_250/        ~/www/stop/old/
-mv ~/www/stop/varied_2017-06-13_juan_CutAndCount_250_signal/ ~/www/stop/old/ 
-
-cp -r varied_2017-06-13_juan_CutAndCount_200/        ~/www/stop/
-cp -r varied_2017-06-13_juan_CutAndCount_200_signal/ ~/www/stop/
-cp -r varied_2017-06-13_juan_CutAndCount_225/        ~/www/stop/
-cp -r varied_2017-06-13_juan_CutAndCount_225_signal/ ~/www/stop/
-cp -r varied_2017-06-13_juan_CutAndCount_250/        ~/www/stop/
-cp -r varied_2017-06-13_juan_CutAndCount_250_signal/ ~/www/stop/
-
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_CutAndCount_200/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_CutAndCount_200_signal/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_CutAndCount_225/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_CutAndCount_225_signal/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_CutAndCount_250/
-cp ~/www/stop/index.php ~/www/stop/varied_2017-06-13_juan_CutAndCount_250_signal/
+###main "nbins/2bins/"  "datacard_MT2_no0_0_SFS_250_50_ElMu" "M_{T2}" "MT2_no0_0_ElMu.root" "varied_2bins"  "SFS_250_50"
+###main "nbins/3bins/"  "datacard_MT2_no0_1_SFS_250_50_ElMu" "M_{T2}" "MT2_no0_1_ElMu.root" "varied_3bins"  "SFS_250_50"
+###main "nbins/6bins/"  "datacard_MT2_no0_2_SFS_250_50_ElMu" "M_{T2}" "MT2_no0_2_ElMu.root" "varied_6bins"  "SFS_250_50"
+###main "nbins/7bins/"  "datacard_MT2_no0_3_SFS_250_50_ElMu" "M_{T2}" "MT2_no0_3_ElMu.root" "varied_7bins"  "SFS_250_50"
+###main "nbins/9bins/"  "datacard_MT2_no0_4_SFS_250_50_ElMu" "M_{T2}" "MT2_no0_4_ElMu.root" "varied_9bins"  "SFS_250_50"
+###main "nbins/10bins/" "datacard_MT2_no0_5_SFS_250_50_ElMu" "M_{T2}" "MT2_no0_5_ElMu.root" "varied_10bins" "SFS_250_50"
+###main "nbins/12bins/" "datacard_MT2_no0_6_SFS_250_50_ElMu" "M_{T2}" "MT2_no0_6_ElMu.root" "varied_12bins" "SFS_250_50"
 
 
-
+#main "2017-06-13_juan/" "datacard_MT2_ElMu_SFS_200_50" "M_{T2}" "MT2.root" "varied_2017-06-13_juan_MT2_200" "SFS_200_50"
+#main "2017-06-13_juan/" "datacard_MT2_ElMu_SFS_225_50" "M_{T2}" "MT2.root" "varied_2017-06-13_juan_MT2_225" "SFS_225_50"
+#main "2017-06-13_juan/" "datacard_MT2_ElMu_SFS_250_50" "M_{T2}" "MT2.root" "varied_2017-06-13_juan_MT2_250" "SFS_250_50"
+#
+#main "2017-06-13_juan/" "datacard_CutAndCount_ElMu_SFS_200_50" "Yield" "CutAndCount.root" "varied_2017-06-13_juan_CutAndCount_200" "SFS_200_50"
+#main "2017-06-13_juan/" "datacard_CutAndCount_ElMu_SFS_225_50" "Yield" "CutAndCount.root" "varied_2017-06-13_juan_CutAndCount_225" "SFS_225_50"
+#main "2017-06-13_juan/" "datacard_CutAndCount_ElMu_SFS_250_50" "Yield" "CutAndCount.root" "varied_2017-06-13_juan_CutAndCount_250" "SFS_250_50"
+#
+#
