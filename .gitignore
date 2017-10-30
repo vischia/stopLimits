@@ -4,3 +4,8 @@ varied*
 higgsCombine*
 impacts_*
 20*
+out20*
+*.pdf
+*.png
+*.root
+*.log
