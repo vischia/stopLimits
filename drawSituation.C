@@ -45,7 +45,7 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
           double ratio(t->GetBinContent(ibin) != 0 ?  s->GetBinContent(ibin) / sqrt(t->GetBinContent(ibin)) : 0. );
           cout << s->GetBinContent(ibin) << " / sqrt(" << t->GetBinContent(ibin) << ") = " << ratio << endl;
           g->SetPoint(ibin-1, s->GetXaxis()->GetBinCenter(ibin) , ratio);
-          cout << "BIN " << ibin << ", CENTER: " << s->GetBinCenter(ibin) << ", endl;
+          cout << "BIN " << ibin << ", CENTER: " << s->GetBinCenter(ibin) << endl;
         }
     }
 
@@ -193,8 +193,23 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
   g->SetLineWidth(3);
   g->SetMarkerStyle(21);
   g->Draw("APL");
+  g->GetHistogram()->GetXaxis()->SetRangeUser(t->GetXaxis()->GetBinLowEdge(1), t->GetXaxis()->GetBinUpEdge(t->GetNbinsX()));
   c2->Print(location+"/"+"significance.png");
   c2->Print(location+"/"+"significance.pdf");
+
+
+  TCanvas* c3 = new TCanvas("c3", "c3", 1000,1000);
+  c2->cd();
+  g->GetXaxis()->SetTitle(t->GetXaxis()->GetTitle());
+  g->GetYaxis()->SetTitle("(signal-ttbar)/ttbar");
+  s->SetTitle("Distributions normalized to 1 before subtraction/ratio");
+  s->Scale(1./s->Integral());
+  t->Scale(1./t->Integral());
+  s->Add(t,-1);
+  s->Divide(t);
+  s->Draw();
+  c2->Print(location+"/"+"shaperatio.png");
+  c2->Print(location+"/"+"shaperatio.pdf");
 
 
   gApplication->Terminate();
