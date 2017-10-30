@@ -29,9 +29,9 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
 
   t->GetYaxis()->SetRangeUser(0., 8000.);
   
-  TGraph* g = new TGraph(t->GetNbinsX() == 1 ? 1 : t->GetNbinsX()-1);
-  cout << "NBINS " << t->GetNbinsX() << endl;
-  cout << "INTEGRAL " << t->Integral() << endl;
+  TGraph* g = new TGraph(t->GetNbinsX() == 1 ? 1 : t->GetNbinsX());
+  cout << "NBINS " << t->GetNbinsX() << ", " << s->GetNbinsX() << endl;
+  cout << "INTEGRAL " << t->Integral() << ", " << s->Integral() << endl;
   if(t->GetNbinsX() == 1)
     {
       double ratio(t->GetBinContent(1) != 0 ?  s->GetBinContent(1) / sqrt(t->GetBinContent(1)) : 0. );
@@ -40,11 +40,12 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
     }
   else
     {
-      for(int ibin=1; ibin<t->GetNbinsX(); ++ibin)
+      for(int ibin=1; ibin<t->GetNbinsX()+1; ++ibin)
         {
           double ratio(t->GetBinContent(ibin) != 0 ?  s->GetBinContent(ibin) / sqrt(t->GetBinContent(ibin)) : 0. );
           cout << s->GetBinContent(ibin) << " / sqrt(" << t->GetBinContent(ibin) << ") = " << ratio << endl;
           g->SetPoint(ibin-1, s->GetXaxis()->GetBinCenter(ibin) , ratio);
+          cout << "BIN " << ibin << ", CENTER: " << s->GetBinCenter(ibin) << ", endl;
         }
     }
 
