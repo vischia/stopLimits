@@ -145,8 +145,15 @@ function main {
 }
 
 
-main "2017-10-03_xuan/" "datacard_CutAndCount_SFS_225_50_ElMu.txt" "Counts" "CutAndCount.root" "out2017-10-03_cnc" "SFS_225_50"
-main "2017-10-03_xuan/" "datacard_MT2_SFS_225_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-10-03_mt2" "SFS_225_50"
+main "2017-10-03_xuan/" "datacard_CutAndCount_SFS_200_50_ElMu.txt" "Counts" "CutAndCount.root" "out2017-10-03_cnc_200_50" "SFS_200_50"
+main "2017-10-03_xuan/" "datacard_MT2_SFS_200_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-10-03_mt2_200_50" "SFS_200_50"
+
+main "2017-10-03_xuan/" "datacard_CutAndCount_SFS_225_50_ElMu.txt" "Counts" "CutAndCount.root" "out2017-10-03_cnc_225_50" "SFS_225_50"
+main "2017-10-03_xuan/" "datacard_MT2_SFS_225_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-10-03_mt2_225_50" "SFS_225_50"
+
+main "2017-10-03_xuan/" "datacard_CutAndCount_SFS_250_50_ElMu.txt" "Counts" "CutAndCount.root" "out2017-10-03_cnc_250_50" "SFS_250_50"
+main "2017-10-03_xuan/" "datacard_MT2_SFS_250_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-10-03_mt2_250_50" "SFS_250_50"
+
 
 #main "2017-06-28_NoMetCut/" "datacard_CutAndCount_SFS_250_50_ElMu.txt" "Counts" "CutAndCount.root" "out2017-06-28_cnc" "SFS_250_50"
 #main "2017-06-28_NoMetCut/" "datacard_MT2_SFS_250_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-06-28_mt2" "SFS_250_50"
