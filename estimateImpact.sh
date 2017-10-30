@@ -13,6 +13,7 @@ DATACARD=$1
 LABEL=$2
 MASS="1"
 TABLES=$3
+EXPECTSIGNAL=$4
 
 if [ "$1" != "" ]; then
     DATACARD=${1}
@@ -29,8 +30,8 @@ if [ "$TABLES" = "yes" ]; then
     echo "Pre-stage: get pulls from ML fit"
     echo "---------------------------------"
     
-    combine -M MaxLikelihoodFit -d ${DATACARD} -m ${MASS} -t -1 --expectSignal EXPECTED
-    diffNuisances.py -a -f latex -g pullPlots_${LABEL}.root  > pullTable_${LABEL}.log
+    combine -M MaxLikelihoodFit -d ${DATACARD} -m ${MASS} -t -1 --expectSignal 1
+    python ../HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a -f latex -g pullPlots_${LABEL}.root fitDiagnostics.root > pullTable_${LABEL}.log
     return
 fi
 
@@ -62,8 +63,11 @@ mv impacts.pdf ~/www/stop/impacts_${LABEL}.pdf
 # end MAIN
 
 TABLES=$1
+EXPECTSIGNAL=$2
 
-main 2017-06-28_NoMetCut/datacard_MT2_SFS_250_50_ElMu_nostat         2017-06_28_SFS_250_50_ElMu_mt2_nostat ${TABLES} 
+main 2017-10-30_mt2g0_xuan/datacard_MT2_MT2g0_SFS_225_50_ElMu 2017-10_30_MT2g0_SFS_225_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+
+# main 2017-06-28_NoMetCut/datacard_MT2_SFS_250_50_ElMu_nostat         2017-06_28_SFS_250_50_ElMu_mt2_nostat ${TABLES} 
 
 
 #main 2017-06-28_NoMetCut/datacard_CutAndCount_SFS_200_50_ElMu 2017-06_28_SFS_200_50_ElMu_cnc ${TABLES}
