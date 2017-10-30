@@ -144,13 +144,21 @@ function main {
     
 }
 
-main "2017-06-22_juanWithFakes/" "datacard_MT2_SFS_200_50_ElMu.txt" "M_{T2}" "MT2.root"  "systs_2017-06-22_juan_mt2" "SFS_200_50"
-main "2017-06-22_juanWithFakes/" "datacard_MT2_SFS_225_50_ElMu.txt" "M_{T2}" "MT2.root"  "systs_2017-06-22_juan_mt2" "SFS_225_50"
-main "2017-06-22_juanWithFakes/" "datacard_MT2_SFS_250_50_ElMu.txt" "M_{T2}" "MT2.root"  "systs_2017-06-22_juan_mt2" "SFS_250_50"
 
-main "2017-06-22_juanWithFakes/" "datacard_CutAndCount_SFS_200_50_ElMu.txt" "Counts" "CutAndCount.root"  "systs_2017-06-22_juan_cnc" "SFS_200_50"
-main "2017-06-22_juanWithFakes/" "datacard_CutAndCount_SFS_225_50_ElMu.txt" "Counts" "CutAndCount.root"  "systs_2017-06-22_juan_cnc" "SFS_225_50"
-main "2017-06-22_juanWithFakes/" "datacard_CutAndCount_SFS_250_50_ElMu.txt" "Counts" "CutAndCount.root"  "systs_2017-06-22_juan_cnc" "SFS_250_50"
+
+main "2017-06-28_NoMetCut/" "datacard_CutAndCount_SFS_250_50_ElMu.txt" "Counts" "CutAndCount.root" "out2017-06-28_cnc" "SFS_250_50"
+main "2017-06-28_NoMetCut/" "datacard_MT2_SFS_250_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-06-28_mt2" "SFS_250_50"
+
+#main "2017-06-26_newpdf/" "datacard_MT26bins_SFS_250_50_ElMu.txt" "M_{T2}" "MT26bins.root"  "out2017-06-26_newpdf" "SFS_250_50"
+#main "2017-06-26_newpdf_7bins/" "datacard_MT27bins_SFS_250_50_ElMu.txt" "M_{T2}" "MT27bins.root"  "out2017-06-26_newpdf_7bins" "SFS_250_50"
+
+#main "2017-06-22_juanWithFakes/" "datacard_MT2_SFS_200_50_ElMu.txt" "M_{T2}" "MT2.root"  "systs_2017-06-22_juan_mt2" "SFS_200_50"
+#main "2017-06-22_juanWithFakes/" "datacard_MT2_SFS_225_50_ElMu.txt" "M_{T2}" "MT2.root"  "systs_2017-06-22_juan_mt2" "SFS_225_50"
+#main "2017-06-22_juanWithFakes/" "datacard_MT2_SFS_250_50_ElMu.txt" "M_{T2}" "MT2.root"  "systs_2017-06-22_juan_mt2" "SFS_250_50"
+#
+#main "2017-06-22_juanWithFakes/" "datacard_CutAndCount_SFS_200_50_ElMu.txt" "Counts" "CutAndCount.root"  "systs_2017-06-22_juan_cnc" "SFS_200_50"
+#main "2017-06-22_juanWithFakes/" "datacard_CutAndCount_SFS_225_50_ElMu.txt" "Counts" "CutAndCount.root"  "systs_2017-06-22_juan_cnc" "SFS_225_50"
+#main "2017-06-22_juanWithFakes/" "datacard_CutAndCount_SFS_250_50_ElMu.txt" "Counts" "CutAndCount.root"  "systs_2017-06-22_juan_cnc" "SFS_250_50"
 
 # main "baseCards/" "datacard_DeltaPhi_ElMu_0"  "#Delta#phi(#it{l}, #mu)" "DeltaPhi_ElMu_0.root" "variedTtbar"
 
