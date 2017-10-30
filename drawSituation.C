@@ -1,4 +1,4 @@
-void drawSituation(TString who, TString card, TString location, TString theLabel)
+void drawSituation(TString who, TString card, TString location, TString theLabel, TString signalLabel)
 {
 
   gSystem->Exec("mkdir -p " + location);
@@ -6,7 +6,7 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
   TFile* f = TFile::Open(card, "READ");
 
   TString
-    signalLabel(who=="carlos" ? "h_Stop": "S_242_75" /*"Signal"*/ ),
+    //signalLabel(who=="carlos" ? "h_Stop": "S_242_75" /*"Signal"*/ ),
     ttbarLabel( who=="carlos" ? "h_tt"  : "ttbar");
   
 
@@ -54,12 +54,28 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
 
   vector<TString> systList; systList.clear();
   
-  systList.push_back("VV_ElMu_statbin1");
-  systList.push_back("ttV_ElMu_statbin1");
-  systList.push_back("DY_ElMu_statbin1");
-  systList.push_back("tW_ElMu_statbin1");
+  //systList.push_back("VV_ElMu_statbin1");
+  //systList.push_back("ttV_ElMu_statbin1");
+  //systList.push_back("DY_ElMu_statbin1");
+  //systList.push_back("tW_ElMu_statbin1");
+  //systList.push_back("ttbar_ElMu_statbin1");
+  //systList.push_back("S_242_75_ElMu_statbin1");
   systList.push_back("ttbar_ElMu_statbin1");
-  systList.push_back("S_242_75_ElMu_statbin1");
+  systList.push_back("ttbar_ElMu_statbin2");
+  systList.push_back("ttbar_ElMu_statbin3");
+  systList.push_back("ttbar_ElMu_statbin4");
+  systList.push_back("ttbar_ElMu_statbin5");
+  systList.push_back("ttbar_ElMu_statbin6");
+  systList.push_back("ttbar_ElMu_statbin7");
+  systList.push_back("SFS_250_50_ElMu_statbin1");
+  systList.push_back("SFS_250_50_ElMu_statbin2");
+  systList.push_back("SFS_250_50_ElMu_statbin3");
+  systList.push_back("SFS_250_50_ElMu_statbin4");
+  systList.push_back("SFS_250_50_ElMu_statbin5");
+  systList.push_back("SFS_250_50_ElMu_statbin6");
+  systList.push_back("SFS_250_50_ElMu_statbin7");
+  systList.push_back("hdamp");
+  systList.push_back("Scale");
   systList.push_back("ue");
   systList.push_back("isr");
   systList.push_back("nlo");
@@ -69,6 +85,7 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
   systList.push_back("MisTag");
   systList.push_back("LepEff");
   systList.push_back("PU");
+  systList.push_back("pdf");
   
   TCanvas* c = new TCanvas("c","c", 1000,1000);
   TH1* u = NULL;
@@ -82,50 +99,70 @@ void drawSituation(TString who, TString card, TString location, TString theLabel
       c->SetTitle(Form("Syst %s",syst.Data()));
       u = (TH1*) f->Get(Form("%s_%sUp"  ,signalLabel.Data(),syst.Data()));
       d = (TH1*) f->Get(Form("%s_%sDown",signalLabel.Data(),syst.Data())); 
-      s->SetLineColor(1);
-      s->SetFillStyle(0);
-      s->SetLineWidth(3);
-      u->SetLineColor(2);
-      u->SetFillStyle(0);
-      u->SetLineWidth(3);
-      d->SetLineColor(3);
-      d->SetFillStyle(0);
-      d->SetLineWidth(3);
-      legsyst->AddEntry(s, "Nominal", "l");
-      legsyst->AddEntry(u, "Up variation", "l");
-      legsyst->AddEntry(d, "Down variation", "l");
-      s->Draw();
-      u->Draw("samehist");
-      d->Draw("samehist");
-      c->Print(Form("%s/signalShapes_%s.png",location.Data(),syst.Data()));
-      c->Print(Form("%s/signalShapes_%s.pdf",location.Data(),syst.Data()));
-      
-      delete u;
-      delete d;
-      
+      if(u)
+        {
+          s->SetLineColor(1);
+          s->SetFillStyle(0);
+          s->SetLineWidth(3);
+          u->SetLineColor(2);
+          u->SetFillStyle(0);
+          u->SetLineWidth(3);
+          d->SetLineColor(3);
+          d->SetFillStyle(0);
+          d->SetLineWidth(3);
+          legsyst->AddEntry(s, "Nominal", "l");
+          legsyst->AddEntry(u, "Up variation", "l");
+          legsyst->AddEntry(d, "Down variation", "l");
+          //s->SetMaximum(10*s->GetMaximum());
+          //gPad->SetLogy();
+          //s->Draw();
+          u->Divide(s);
+          d->Divide(s);
+          u->SetMaximum(2*u->GetMaximum());
+          //gPad->SetLogy();
+          u->Draw("hist");
+          d->Draw("samehist");
+          c->Print(Form("%s/signalShapes_%s.png",location.Data(),syst.Data()));
+          c->Print(Form("%s/signalShapes_%s.pdf",location.Data(),syst.Data()));
+          delete u;
+          delete d;
+        }
       c->Clear();
       
       // Dominant background
       c->cd();
-      c->SetTitle(Form("Syst %s",syst));
+      c->SetTitle(Form("Syst %s",syst.Data()));
       u = (TH1*) f->Get(Form("%s_%sUp"  ,ttbarLabel.Data(),syst.Data()));
       d = (TH1*) f->Get(Form("%s_%sDown",ttbarLabel.Data(),syst.Data())); 
-      t->SetLineColor(1);
-      t->SetFillStyle(0);
-      t->SetLineWidth(3);
-      u->SetLineColor(2);
-      u->SetFillStyle(0);
-      u->SetLineWidth(3);
-      d->SetLineColor(3);
-      d->SetFillStyle(0);
-      d->SetLineWidth(3);
-      t->Draw();
-      u->Draw("samehist");
-      d->Draw("samehist");
-      c->Print(Form("%s/ttbarShapes_%s.png",location.Data(),syst.Data()));
-      c->Print(Form("%s/ttbarShapes_%s.pdf",location.Data(),syst.Data()));
-      delete u;
-      delete d;
+      if(u)
+        {
+          t->SetLineColor(1);
+          t->SetFillStyle(0);
+          t->SetLineWidth(3);
+          u->SetLineColor(2);
+          u->SetFillStyle(0);
+          u->SetLineWidth(3);
+          d->SetLineColor(3);
+          d->SetFillStyle(0);
+          d->SetLineWidth(3);
+          legsyst->AddEntry(t, "Nominal", "l");
+          legsyst->AddEntry(u, "Up variation", "l");
+          legsyst->AddEntry(d, "Down variation", "l");
+          //u->SetMaximum(100*t->GetMaximum());
+          //t->Draw();
+          u->Divide(t);
+          d->Divide(t);
+          u->SetMaximum(10*u->GetMaximum());
+          gPad->SetLogy();
+          u->SetNdivisions(555, "Y");
+          u->GetYaxis()->SetMoreLogLabels();
+          u->Draw("hist");
+          d->Draw("samehist");
+          c->Print(Form("%s/ttbarShapes_%s.png",location.Data(),syst.Data()));
+          c->Print(Form("%s/ttbarShapes_%s.pdf",location.Data(),syst.Data()));
+          delete u;
+          delete d;
+        }
       c->Clear();
     }
 
