@@ -1,10 +1,24 @@
 import ROOT, os
+from optparse import OptionParser
 
 #Input things
-nbins = 21 #Number of original bins, will split  in this total number
-inDatacard = "/nfs/fanae/user/carlosec/Combine/CMSSW_8_1_0/src/datacards/Datacards_stop/jan16/datacard_MT2_21_T2tt_227p5_52p5_ElMu.txt"
-outDatacard = "/nfs/fanae/user/carlosec/Combine/CMSSW_8_1_0/src/datacards/Datacards_stop/jan16/testStat/splitsAll/datacard_MT2_21_T2tt_227p5_52p5_mod_ElMu_binName.txt"
-outRootFile = "/nfs/fanae/user/carlosec/Combine/CMSSW_8_1_0/src/datacards/Datacards_stop/jan16/testStat/splitsAll/MT2BIN_binName.root"
+
+
+#inDatacard = "/nfs/fanae/user/carlosec/Combine/CMSSW_8_1_0/src/datacards/Datacards_stop/jan16/datacard_MT2_21_T2tt_227p5_52p5_ElMu.txt"
+#outDatacard = "/nfs/fanae/user/carlosec/Combine/CMSSW_8_1_0/src/datacards/Datacards_stop/jan16/testStat/splitsAll/datacard_MT2_21_T2tt_227p5_52p5_mod_ElMu_binName.txt" <=binName is needed because I'm lazy
+#outRootFile = "/nfs/fanae/user/carlosec/Combine/CMSSW_8_1_0/src/datacards/Datacards_stop/jan16/testStat/splitsAll/MT2BIN_binName.root" <=binName is needed because I'm lazy
+
+pr = OptionParser(usage="%prog inDataCard outDataCard outRootFile [options]")
+
+pr.add_option("-n"  , "--nbins"         , dest="nbins"       , type="int"      , default=-1, help="Number of bins computed. -1 to let the code count")
+pr.add_option("-v"  , "--verbose"         , dest="verbose"       , type="int"      , default=0, help="Verbosity on/off")
+
+(options, args) = pr.parse_args()
+
+inDatacard = args[0]
+outDatacard = args[1]
+outRootFile = args[2]
+nbins = options.nbins
 
 
 class splitter():
@@ -61,13 +75,17 @@ class splitter():
       if "stat" in tempLine[0]: continue
       self.systs.append(tempLine[0])
       self.systsLines.append(line)
+    if self.nBins == -1: #This breaks if more than one shapes file is being used
+      temp = ROOT.TFile("/".join(self.inCard.split("/")[:-1]) + "/" + self.shapeFiles[0], "READ")
+      self.nBins = temp.Get("data_obs").GetNbinsX()
+      temp.Close()
 
   def getYieldsAndWrite(self, rootFile, what, inumber, oFile, write = True, whatOut = False):
     if not whatOut: whatOut = what
     #print write, what, whatOut
-    opRoot = ROOT.TFile(rootFile, "READ")
+
+    opRoot = ROOT.TFile("/".join(self.inCard.split("/")[:-1]) + "/" + rootFile, "READ")
     oldOne = opRoot.Get(what)
-    print rootFile, what
     theOriginalYield  = float(oldOne.GetBinContent(inumber))
     theYield  = theOriginalYield
     theCenter = oldOne.GetBinCenter(inumber)
@@ -162,7 +180,7 @@ class splitter():
             n += 1            
             continue
           linetemp.append("-")
-          print "appended", self.processes[n], n, self.procToExclude
+          if options.verbose > 0: print "appended", self.processes[n], n, self.procToExclude
           n += 1
           continue
         if n in self.procToExclude:
@@ -173,7 +191,7 @@ class splitter():
         y2 = self.getYieldsAndWrite(self.proctoFile[self.shapebinsforProcesses[n]], self.processes[n] + "_" + line.split()[0] +"Down", inumber,outputRootFile,True)
         n +=1
         if float(y1) > 0 or float(y2) > 0:
-          print "floating", self.processes[n-1]
+          if options.verbose > 0: print "floating", self.processes[n-1]
           writeIt = True
           linetemp.append(word)
         else:
