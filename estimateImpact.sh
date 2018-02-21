@@ -31,7 +31,7 @@ if [ "$TABLES" = "yes" ]; then
     echo "---------------------------------"
     
     combine -M MaxLikelihoodFit -d ${DATACARD} -m ${MASS} -t -1 --expectSignal 1
-    python ../HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a -f latex -g pullPlots_${LABEL}.root fitDiagnostics.root > pullTable_${LABEL}.log
+    python ../HiggsAnalysis/CombinedLimit/test/diffNuisances.py -a -f latex -g pullPlots_${LABEL}.root fitDiagnostics.root > ~/www/stop/pullTable_${LABEL}.txt
     return
 fi
 
@@ -65,7 +65,27 @@ mv impacts.pdf ~/www/stop/impacts_${LABEL}.pdf
 TABLES=$1
 EXPECTSIGNAL=$2
 
-main 2017-10-30_mt2g0_xuan/datacard_MT2_MT2g0_SFS_225_50_ElMu 2017-10_30_MT2g0_SFS_225_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+#main 2017-10-03_xuan/datacard_MT2_SFS_200_50_ElMu 2017-10-03_SFS_200_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+#main 2017-10-03_xuan/datacard_MT2_SFS_225_50_ElMu 2017-10-03_SFS_225_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+#main 2017-10-03_xuan/datacard_MT2_SFS_250_50_ElMu 2017-10-03_SFS_250_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+#
+#main 2017-11-27_xuan/datacard_MT2_SFS_200_50_ElMu 2017-11_27_SFS_200_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+#main 2017-11-27_xuan/datacard_MT2_SFS_225_50_ElMu 2017-11_27_SFS_225_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+#main 2017-11-27_xuan/datacard_MT2_SFS_250_50_ElMu 2017-11_27_SFS_250_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+#
+#main 2017-11-29_xuan/datacard_MT2_SFS_200_50_ElMu 2017-11_29_SFS_200_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+#main 2017-11-29_xuan/datacard_MT2_SFS_225_50_ElMu 2017-11_29_SFS_225_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+#main 2017-11-29_xuan/datacard_MT2_SFS_250_50_ElMu 2017-11_29_SFS_250_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
+
+main datacard_MT2_21_SFS_225_50_ElMu.root ${TABLES} ${EXPECTSIGNAL}
+
+#main 2017-11-29_xuan_80X/datacard_MT2_21_SFS_200_50_ElMu 2017-11_29_SFS_200_50_ElMu_mt2_21bins_automc ${TABLES} ${EXPECTSIGNAL}
+#main 2017-11-29_xuan_80X/datacard_MT2_21_SFS_225_50_ElMu 2017-11_29_SFS_225_50_ElMu_mt2_21bins_automc ${TABLES} ${EXPECTSIGNAL}
+#main 2017-11-29_xuan_80X/datacard_MT2_21_SFS_250_50_ElMu 2017-11_29_SFS_250_50_ElMu_mt2_21bins_automc ${TABLES} ${EXPECTSIGNAL}
+
+
+
+#main 2017-10-30_mt2g0_xuan/datacard_MT2_MT2g0_SFS_225_50_ElMu 2017-10_30_MT2g0_SFS_225_50_ElMu_mt2 ${TABLES} ${EXPECTSIGNAL}
 
 # main 2017-06-28_NoMetCut/datacard_MT2_SFS_250_50_ElMu_nostat         2017-06_28_SFS_250_50_ElMu_mt2_nostat ${TABLES} 
 

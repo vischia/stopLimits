@@ -144,14 +144,22 @@ function main {
     
 }
 
-main "2017-10-30_mt2g0_xuan/" "datacard_CutAndCount_MT2g0_SFS_200_50_ElMu.txt" "Counts" "CutAndCount_MT2g0.root" "out2017-10-30_cnc_mt2g0_200_50" "SFS_200_50"
-main "2017-10-30_mt2g0ls_xuan/" "datacard_MT2_MT2g0_SFS_200_50_ElMu.txt" "M_{T2}" "MT2_MT2g0.root" "out2017-10-30_mt2_mt2g0_200_50" "SFS_200_50"
+main "2017-11-29bis_xuan_21bins/" "datacard_MT2_21_SFS_200_50_ElMu.txt" "M_{T2}" "MT2_21.root" "out2017-11-29bis_mt2_21bins_200_50" "SFS_200_50"
+main "2017-11-29bis_xuan_21bins/" "datacard_MT2_21_SFS_225_50_ElMu.txt" "M_{T2}" "MT2_21.root" "out2017-11-29bis_mt2_21bins_225_50" "SFS_225_50"
+main "2017-11-29bis_xuan_21bins/" "datacard_MT2_21_SFS_250_50_ElMu.txt" "M_{T2}" "MT2_21.root" "out2017-11-29bis_mt2_21bins_250_50" "SFS_250_50"
 
-main "2017-10-30_mt2g0_xuan/" "datacard_CutAndCount_MT2g0_SFS_225_50_ElMu.txt" "Counts" "CutAndCount_MT2g0.root" "out2017-10-03_cnc_mt2g0_225_50" "SFS_225_50"
-main "2017-10-30_mt2g0_xuan/" "datacard_MT2_MT2g0_SFS_225_50_ElMu.txt" "M_{T2}" "MT2_MT2g0.root" "out2017-10-30_mt2_mt2g0_225_50" "SFS_225_50"
+#main "2017-11-29bis_xuan_bb/" "datacard_MT2_SFS_200_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-11-29bis_mt2_200_50" "SFS_200_50"
+#main "2017-11-29bis_xuan_bb/" "datacard_MT2_SFS_225_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-11-29bis_mt2_225_50" "SFS_225_50"
+#main "2017-11-29bis_xuan_bb/" "datacard_MT2_SFS_250_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-11-29bis_mt2_250_50" "SFS_250_50"
 
-main "2017-10-30_mt2g0_xuan/" "datacard_CutAndCount_MT2g0_SFS_250_50_ElMu.txt" "Counts" "CutAndCount_MT2g0.root" "out2017-10-30_cnc_mt2g0_250_50" "SFS_250_50"
-main "2017-10-30_mt2g0_xuan/" "datacard_MT2_MT2g0_SFS_250_50_ElMu.txt" "M_{T2}" "MT2_MT2g0.root" "out2017-10-30_mt2_mt2g0_250_50" "SFS_250_50"
+#main "2017-10-30_mt2g0_xuan/" "datacard_CutAndCount_MT2g0_SFS_200_50_ElMu.txt" "Counts" "CutAndCount_MT2g0.root" "out2017-10-30_cnc_mt2g0_200_50" "SFS_200_50"
+#main "2017-10-30_mt2g0ls_xuan/" "datacard_MT2_MT2g0_SFS_200_50_ElMu.txt" "M_{T2}" "MT2_MT2g0.root" "out2017-10-30_mt2_mt2g0_200_50" "SFS_200_50"
+#
+#main "2017-10-30_mt2g0_xuan/" "datacard_CutAndCount_MT2g0_SFS_225_50_ElMu.txt" "Counts" "CutAndCount_MT2g0.root" "out2017-10-03_cnc_mt2g0_225_50" "SFS_225_50"
+#main "2017-10-30_mt2g0_xuan/" "datacard_MT2_MT2g0_SFS_225_50_ElMu.txt" "M_{T2}" "MT2_MT2g0.root" "out2017-10-30_mt2_mt2g0_225_50" "SFS_225_50"
+#
+#main "2017-10-30_mt2g0_xuan/" "datacard_CutAndCount_MT2g0_SFS_250_50_ElMu.txt" "Counts" "CutAndCount_MT2g0.root" "out2017-10-30_cnc_mt2g0_250_50" "SFS_250_50"
+#main "2017-10-30_mt2g0_xuan/" "datacard_MT2_MT2g0_SFS_250_50_ElMu.txt" "M_{T2}" "MT2_MT2g0.root" "out2017-10-30_mt2_mt2g0_250_50" "SFS_250_50"
 
 #main "2017-10-03_xuan/" "datacard_CutAndCount_SFS_200_50_ElMu.txt" "Counts" "CutAndCount.root" "out2017-10-03_cnc_200_50" "SFS_200_50"
 #main "2017-10-03_xuan/" "datacard_MT2_SFS_200_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-10-03_mt2_200_50" "SFS_200_50"
