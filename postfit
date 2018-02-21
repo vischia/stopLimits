@@ -1,0 +1,6 @@
+combine -M MultiDimFit --saveWorkspace --setPhysicsModelParameters r=0 -n bkgonly  -m 2000 WorkspacesM2000.root 
+
+combine -M MaxLikelihoodFit --saveNormalizations --saveShapes --saveWithUncertainties --saveWorkspace --plots -m 2000 -n statdata -S 0 --snapshotName=MultiDimFit higgsCombinebkgonly.MultiDimFit.mH2000.root
+combine -M MaxLikelihoodFit --saveNormalizations --saveShapes --saveWithUncertainties --saveWorkspace  --plots -m 2000 -n statbkg --floatNuisances $(cat combine_datacard_hplushadronic_m2000.txt | grep stat | cut -d' ' -f1  | tr '\n' ',') --snapshotName=MultiDimFit higgsCombinebkgonly.MultiDimFit.mH2000.root
+combine -M MaxLikelihoodFit --saveNormalizations --saveShapes --saveWithUncertainties --saveWorkspace --plots -m 2000 WorkspaceM2000.root 
+
