@@ -144,9 +144,11 @@ function main {
     
 }
 
-main "2017-11-29bis_xuan_21bins/" "datacard_MT2_21_SFS_200_50_ElMu.txt" "M_{T2}" "MT2_21.root" "out2017-11-29bis_mt2_21bins_200_50" "SFS_200_50"
-main "2017-11-29bis_xuan_21bins/" "datacard_MT2_21_SFS_225_50_ElMu.txt" "M_{T2}" "MT2_21.root" "out2017-11-29bis_mt2_21bins_225_50" "SFS_225_50"
-main "2017-11-29bis_xuan_21bins/" "datacard_MT2_21_SFS_250_50_ElMu.txt" "M_{T2}" "MT2_21.root" "out2017-11-29bis_mt2_21bins_250_50" "SFS_250_50"
+main "./" "datacard_MT2_21_ElMu_T2tt_220p0_45p0_ElMu.txt" "Mt2" "MT2_21_ElMu.root" "out_latest" "T2tt_220p0_45p0"
+
+#main "2017-11-29bis_xuan_21bins/" "datacard_MT2_21_SFS_200_50_ElMu.txt" "M_{T2}" "MT2_21.root" "out2017-11-29bis_mt2_21bins_200_50" "SFS_200_50"
+#main "2017-11-29bis_xuan_21bins/" "datacard_MT2_21_SFS_225_50_ElMu.txt" "M_{T2}" "MT2_21.root" "out2017-11-29bis_mt2_21bins_225_50" "SFS_225_50"
+#main "2017-11-29bis_xuan_21bins/" "datacard_MT2_21_SFS_250_50_ElMu.txt" "M_{T2}" "MT2_21.root" "out2017-11-29bis_mt2_21bins_250_50" "SFS_250_50"
 
 #main "2017-11-29bis_xuan_bb/" "datacard_MT2_SFS_200_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-11-29bis_mt2_200_50" "SFS_200_50"
 #main "2017-11-29bis_xuan_bb/" "datacard_MT2_SFS_225_50_ElMu.txt" "M_{T2}" "MT2.root" "out2017-11-29bis_mt2_225_50" "SFS_225_50"
